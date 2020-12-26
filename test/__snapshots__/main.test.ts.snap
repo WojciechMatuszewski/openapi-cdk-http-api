@@ -1,0 +1,245 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot 1`] = `
+Object {
+  "Outputs": Object {
+    "ApiUrl": Object {
+      "Value": Object {
+        "Fn::GetAtt": Array [
+          "testApiD6ECAB50",
+          "ApiEndpoint",
+        ],
+      },
+    },
+  },
+  "Parameters": Object {
+    "AssetParameters1c18635e18d89dae5aac91c5144364ddb7c959a11527fd7ecb874e782c5d09a1ArtifactHash14E230F5": Object {
+      "Description": "Artifact hash for asset \\"1c18635e18d89dae5aac91c5144364ddb7c959a11527fd7ecb874e782c5d09a1\\"",
+      "Type": "String",
+    },
+    "AssetParameters1c18635e18d89dae5aac91c5144364ddb7c959a11527fd7ecb874e782c5d09a1S3Bucket1344668E": Object {
+      "Description": "S3 bucket for asset \\"1c18635e18d89dae5aac91c5144364ddb7c959a11527fd7ecb874e782c5d09a1\\"",
+      "Type": "String",
+    },
+    "AssetParameters1c18635e18d89dae5aac91c5144364ddb7c959a11527fd7ecb874e782c5d09a1S3VersionKeyDBA30D3B": Object {
+      "Description": "S3 key for asset version \\"1c18635e18d89dae5aac91c5144364ddb7c959a11527fd7ecb874e782c5d09a1\\"",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "testApiD6ECAB50": Object {
+      "Properties": Object {
+        "Body": Object {
+          "components": Object {
+            "schemas": Object {
+              "SaveNotePayload": Object {
+                "properties": Object {
+                  "text": Object {
+                    "type": "string",
+                  },
+                },
+                "required": Array [
+                  "text",
+                ],
+                "type": "object",
+              },
+              "SaveNoteResult": Object {
+                "properties": Object {
+                  "id": Object {
+                    "type": "string",
+                  },
+                  "text": Object {
+                    "type": "string",
+                  },
+                },
+                "required": Array [
+                  "text",
+                  "id",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "info": Object {
+            "contact": Object {
+              "email": "wojtek@wojtek.pl",
+              "name": "wojtek",
+            },
+            "description": "Notes",
+            "title": "notes-api",
+            "version": "1.0.0",
+          },
+          "openapi": "3.0.1",
+          "paths": Object {
+            "/save": Object {
+              "post": Object {
+                "operationId": "SaveNote",
+                "requestBody": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "schema": Object {
+                        "$ref": "#/components/schemas/SaveNotePayload",
+                      },
+                    },
+                  },
+                },
+                "responses": Object {
+                  "200": Object {
+                    "content": Object {
+                      "application/json": Object {
+                        "schema": Object {
+                          "$ref": "#/components/schemas/SaveNoteResult",
+                        },
+                      },
+                    },
+                    "description": "Success",
+                  },
+                },
+                "summary": "Save a note",
+                "x-amazon-apigateway-integration": Object {
+                  "httpMethod": "POST",
+                  "payloadFormatVersion": "2.0",
+                  "type": "AWS_PROXY",
+                  "uri": Object {
+                    "Fn::GetAtt": Array [
+                      "testHandlerABFFC7B4",
+                      "Arn",
+                    ],
+                  },
+                },
+              },
+            },
+          },
+          "x-amazon-apigateway-cors": Object {
+            "allowCredentials": false,
+            "allowHeaders": Array [
+              "POST",
+              "PUT",
+              "OPTIONS",
+              "GET",
+              "PATCH",
+            ],
+            "allowMethods": Array [
+              "*",
+            ],
+            "allowOrigins": Array [
+              "*",
+            ],
+            "maxAge": 0,
+          },
+          "x-amazon-apigateway-importexport-version": "1.0",
+        },
+      },
+      "Type": "AWS::ApiGatewayV2::Api",
+    },
+    "testApiDefaultStage047D5696": Object {
+      "Properties": Object {
+        "ApiId": Object {
+          "Ref": "testApiD6ECAB50",
+        },
+        "AutoDeploy": true,
+        "StageName": "$default",
+      },
+      "Type": "AWS::ApiGatewayV2::Stage",
+    },
+    "testHandlerABFFC7B4": Object {
+      "DependsOn": Array [
+        "testHandlerServiceRole1504D4C2",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameters1c18635e18d89dae5aac91c5144364ddb7c959a11527fd7ecb874e782c5d09a1S3Bucket1344668E",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters1c18635e18d89dae5aac91c5144364ddb7c959a11527fd7ecb874e782c5d09a1S3VersionKeyDBA30D3B",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters1c18635e18d89dae5aac91c5144364ddb7c959a11527fd7ecb874e782c5d09a1S3VersionKeyDBA30D3B",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Handler": "handler.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "testHandlerServiceRole1504D4C2",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs12.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "testHandlerServiceRole1504D4C2": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "testHandlerapigwexecute0B9CC758": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "testHandlerABFFC7B4",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+  },
+}
+`;

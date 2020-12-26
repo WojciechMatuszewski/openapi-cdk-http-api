@@ -1,0 +1,31 @@
+openapi: 3.0.1
+info:
+  title: notes-api
+  description: Notes
+  version: 1.0.0
+  contact:
+    email: wojtek@wojtek.pl
+    name: wojtek
+paths:
+  /save:
+    $ref: ./paths/Save.yaml
+  /search:
+    $ref: ./paths/Search.yaml
+  /list:
+    $ref: ./paths/List.yaml
+  /get/{id}:
+    $ref: ./paths/Get.yaml
+x-amazon-apigateway-cors:
+  allowMethods:
+    - "*"
+  maxAge: 0
+  allowCredentials: false
+  allowOrigins:
+    - "*"
+  allowHeaders:
+    - POST
+    - PUT
+    - OPTIONS
+    - GET
+    - PATCH
+x-amazon-apigateway-importexport-version: "1.0"

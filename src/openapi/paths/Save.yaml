@@ -1,0 +1,24 @@
+post:
+  operationId: SaveNote
+  summary: Save a note
+  x-amazon-apigateway-integration:
+    integrationSubtype: "StepFunctions-StartSyncExecution"
+    credentials: $API_ROLE
+    requestParameters:
+      Input: "$request.body"
+      StateMachineArn: $MACHINE_ARN
+    type: aws_proxy
+    payloadFormatVersion: "1.0"
+    connectionType: INTERNET
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../schemas/SaveNotePayload.yaml
+  responses:
+    "200":
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: ../schemas/SaveNoteResult.yaml

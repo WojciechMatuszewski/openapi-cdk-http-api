@@ -1,0 +1,15 @@
+type: object
+required:
+  - text
+  - id
+  - sentiment
+  - createdAt
+properties:
+  text:
+    type: string
+  id:
+    type: string
+  sentiment:
+    type: string
+  createdAt:
+    type: string

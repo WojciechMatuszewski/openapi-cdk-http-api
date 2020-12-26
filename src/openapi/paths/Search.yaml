@@ -1,0 +1,31 @@
+get:
+  operationId: SearchNote
+  summary: Search for a note
+  x-amazon-apigateway-integration:
+    type: aws_proxy
+    httpMethod: get
+    uri: $SEARCH_LAMBDA_ARN
+    payloadFormatVersion: "2.0"
+  responses:
+    200:
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: ../schemas/SearchNotesResult.yaml
+parameters:
+  - name: query
+    in: query
+    schema:
+      type: string
+    description: Query to search text on
+  - name: cursor
+    in: query
+    schema:
+      type: string
+    description: Pagination cursor
+  - name: limit
+    in: query
+    schema:
+      type: string
+    description: Limit the results
